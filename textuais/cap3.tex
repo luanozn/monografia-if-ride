@@ -1,0 +1,329 @@
+\chapter{Levantamento e Análise de requisitos}
+
+Nesta seção, são detalhadas as etapas iniciais para dar início ao desenvolvimento do sistema. O processo foi estruturado em fases que incluem o levantamento de requisitos, análise de requisitos, implementação, testes, correções e entrega. O fluxo de desenvolvimento seguiu um passo a passo lógico, garantindo uma abordagem organizada e eficiente.
+
+\section{Levantamento e Análise de Requisitos}
+O levantamento de requisitos foi realizado com base nas necessidades operacionais de um sistema de gerenciamento de \textit{tickets} para otimizar processos de atendimento e suporte. O sistema visa substituir métodos manuais ou pouco integrados, garantindo rastreabilidade, segurança e eficiência na gestão de demandas.
+
+Durante essa análise, foram identificadas diversas funcionalidades essenciais, incluindo o controle eficiente do ciclo de vida dos \textit{tickets}, a definição de prioridades para atendimento e a necessidade de registrar todo o histórico de modificações. Além disso, destacou-se a importância da autenticação segura dos usuários e da aplicação de regras de autorização para garantir que cada perfil tenha acesso apenas às informações pertinentes.
+
+Também foi levantada a necessidade de notificações automáticas via e-mail para manter os usuários informados sobre o andamento dos \textit{tickets}, garantindo um fluxo de comunicação eficiente.
+
+\subsection{Níveis de acesso do Usuário}
+Os usuários do sistema são classificados em três categorias, cada uma com permissões específicas:
+
+\begin{itemize}
+    \item[$\bullet$] \textbf{Cliente:} Pode criar \textit{tickets}, visualizar seus próprios chamados, adicionar comentários e anexar arquivos.
+    \item[$\bullet$] \textbf{Funcionário:} Pode visualizar e atender os \textit{tickets} atribuídos a ele, adicionar comentários e registrar o histórico de ações.
+    \item[$\bullet$] \textbf{Gerente:} Possui controle total sobre os \textit{tickets} do seu departamento, podendo criar e gerenciar categorias, definir regras de prioridade e gerar relatórios.
+\end{itemize}
+
+\subsection{Requisitos Funcionais}
+
+Os principais requisitos funcionais do sistema foram definidos conforme a tabela abaixo:
+
+
+\begin{longtable}{|m{3.1cm}|m{2.6cm}|m{3.5cm}|m{5cm}|}
+    \hline
+    \textbf{Identificação} & \textbf{Classificação} & \textbf{Ator} & \textbf{Objetivo} \\
+    \hline
+    Realizar Cadastro & Essencial & Cliente, Funcionário & Permitir que o cliente ou funcionário realize o cadastro no sistema. \\
+    \hline
+    Gerenciar Departamento & Essencial & Gerente & Criar, editar e excluir departamentos que atenderão os \textit{tickets}. \\
+    \hline
+    Gerenciar Categoria & Essencial & Gerente & Criar, editar ou excluir categorias de \textit{tickets}. \\
+    \hline
+    Gerenciar Regra de Prioridade & Essencial & Gerente & Definir critérios para classificação e priorização dos \textit{tickets}. \\
+    \hline
+    Gerenciar \textit{Ticket} & Essencial & Cliente, Funcionário, Gerente & Criar, visualizar e modificar \textit{tickets} conforme permissões do perfil. \\
+    \hline
+    Registrar Histórico & Essencial & Sistema & Armazenar um registro detalhado das ações realizadas em cada \textit{ticket}. \\
+    \hline
+    Realizar Atendimento & Essencial & Funcionário & Atender \textit{tickets} atribuídos e executar as ações necessárias. \\
+    \hline
+    Fazer Comentário & Essencial & Cliente, Funcionário & Inserir comentários nos \textit{tickets} para troca de informações. \\
+    \hline
+    Anexar Arquivo & Importante & Cliente, Funcionário & Permitir anexação de arquivos em \textit{tickets}. \\
+    \hline
+    Gerar Relatório & Importante & Funcionário, Gerente & Criar relatórios sobre os \textit{tickets} e atendimentos realizados. \\
+    \hline
+    \caption{Tabela de requisitos funcionais}
+    \label{tab:requisitosfuncionais}
+\end{longtable}
+
+
+\subsection{Regras de Negócio}
+O sistema de gerenciamento de \textit{tickets} foi desenvolvido para oferecer controle eficiente sobre os atendimentos realizados pelas empresas. As regras de negócio estabelecidas garantem o funcionamento adequado das funcionalidades, respeitando os níveis de acesso dos usuários e a lógica dos fluxos de atendimento.
+
+\subsubsection{1. Autenticação e Autorização}
+\begin{itemize}
+    \item O sistema utiliza autenticação via JWT, garantindo segurança na troca de informações.
+    \item O token contém dados do usuário, incluindo seu ID e perfil de acesso (\texttt{ROLE}), sendo validado a cada requisição.
+\end{itemize}
+
+\subsubsection{2. Regras de Acesso aos \textit{Tickets}}
+\begin{itemize}
+    \item \textbf{Clientes:} Apenas podem acessar os \textit{tickets} que abriram.
+    \item \textbf{Funcionários:} Somente podem visualizar e alterar os \textit{tickets} atribuídos a eles.
+    \item \textbf{Gerentes:} Têm acesso a todos os \textit{tickets} do seu departamento.
+\end{itemize}
+
+\subsubsection{3. Fluxo de Trabalho dos \textit{Tickets}}
+\begin{itemize}
+    \item \textbf{Criação:}
+        \begin{itemize}
+            \item No momento da criação, o sistema classifica a prioridade do \textit{ticket}.
+            \item É enviada uma notificação automática ao cliente e ao responsável pelo atendimento.
+            \item O tempo máximo de resolução é calculado com base na prioridade e na categoria do chamado.
+        \end{itemize}
+\newpage
+    \item \textbf{Atualização:}
+        \begin{itemize}
+            \item Todas as mudanças nos \textit{tickets} são registradas no histórico.
+            \item O sistema verifica e registra alterações feitas nos campos do \textit{ticket}.
+            \item Caso o status de um \textit{ticket} seja alterado para "EM ANDAMENTO", o cliente recebe uma notificação automática.
+        \end{itemize}
+    \item \textbf{Comentários:}
+        \begin{itemize}
+            \item Apenas usuários autorizados podem adicionar comentários.
+            \item Clientes só podem comentar nos seus próprios \textit{tickets}.
+            \item Funcionários só podem comentar nos \textit{tickets} pelos quais são responsáveis.
+            \item Gerentes só podem comentar nos \textit{tickets} do seu departamento.
+        \end{itemize}
+    \item \textbf{Criação de Usuário:}
+        \begin{itemize}
+            \item O sistema valida os dados informados no cadastro, incluindo CPF e e-mail.
+            \item Não é permitido o cadastro de usuários duplicados.
+            \item A senha do usuário é encriptada antes de ser armazenada.
+            \item Após o cadastro, um e-mail de confirmação é enviado ao usuário.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Envio de E-mails}
+O sistema possui um serviço de envio de e-mails automáticos para manter os usuários informados sobre eventos relevantes. As principais notificações incluem:
+
+\begin{itemize}
+    \item \textbf{Cadastro de usuário:} Confirmação da criação da conta e instruções para ativação.
+    \item \textbf{Criação de \textit{ticket}:} Notificação ao cliente e ao responsável pelo atendimento.
+    \item \textbf{Atualização de status:} Aviso ao cliente sempre que o \textit{ticket} sofrer alterações.
+\end{itemize}
+
+\newpage
+
+\subsection{Diagrama de Casos de Uso}
+A Figura \ref{fig:diagramacasosdeuso} ilustra as interações entre os usuários e o sistema, evidenciando as principais funcionalidades acessíveis a cada perfil. Esse diagrama fornece uma visão geral do comportamento do sistema a partir da perspectiva dos usuários, facilitando a compreensão dos requisitos e do escopo das operações disponíveis.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{figuras/diagramas/casos de uso/Diagrama_de_caso_de_uso.png}
+    \caption{Diagrama de casos de uso}
+    \label{fig:diagramacasosdeuso}
+\end{figure} 
+
+\newpage
+
+\subsubsection{UC01 - Fazer Cadastro}
+
+Antes de apresentar os casos de uso do sistema, é importante contextualizar que eles representam as interações entre os usuários (atores) e o sistema, descrevendo o comportamento esperado em diferentes situações. Cada caso de uso é descrito de forma estruturada, utilizando um modelo tabular que contempla os principais elementos, como atores envolvidos, pré e pós-condições, ações e restrições.
+
+A Tabela~\ref{tab:uc01_fazer_cadastro} apresenta o caso de uso UC01, que descreve o processo de cadastro de um novo usuário no sistema:
+
+\begin{table}[h]
+\centering
+\caption{Descrição do Caso de Uso UC01 - Fazer Cadastro}
+\label{tab:uc01_fazer_cadastro}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cllll}
+\hline
+\rowcolor[HTML]{CCCCCC} 
+Nome do caso de uso                                                   & \multicolumn{4}{c}{\cellcolor[HTML]{CCCCCC}UC01 - Fazer Cadastro}               \\ \hline
+\cellcolor[HTML]{CCCCCC}Ator principal                                & \multicolumn{4}{l}{{\color[HTML]{333333} Usuário}}                             \\
+\cellcolor[HTML]{CCCCCC}Atores secundários                            & \multicolumn{4}{l}{-}                                                           \\
+\cellcolor[HTML]{CCCCCC}Resumo                                        & \multicolumn{4}{l}{Permite que um paciente faça o cadastro no sistema.}        \\ \hline
+\cellcolor[HTML]{CCCCCC}Pré-condições                                 & \multicolumn{4}{l}{-}                                                           \\
+\cellcolor[HTML]{CCCCCC}Pós-condições                                 & \multicolumn{4}{l}{Usuário cadastrado recebe e-mail de confirmação.}           \\
+\rowcolor[HTML]{CCCCCC} 
+\multicolumn{5}{c}{\cellcolor[HTML]{CCCCCC}Cenário Principal}                  \\
+\rowcolor[HTML]{CCCCCC} 
+Ações do ator                                                         & \multicolumn{4}{c}{\cellcolor[HTML]{CCCCCC}Ações do sistema}                   \\
+\multicolumn{1}{l}{1) Preencher dados pessoais (nome, e-mail, senha)} & \multicolumn{4}{l}{2) Validar informações}                                     \\
+\multicolumn{1}{l}{3) Confirmar cadastro}                             & \multicolumn{4}{l}{4) Registrar usuário no sistema}                            \\
+\multicolumn{1}{l}{5) Enviar e-mail de confirmação}                   & \multicolumn{4}{l}{}                                                           \\
+\cellcolor[HTML]{CCCCCC}Restrições/Validações                        & \multicolumn{4}{l}{\cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}l@{}}- E-mail deve ser único e válido\\ - Todos os campos obrigatórios devem ser preenchidos\end{tabular}} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\subsubsection{UC02 - Gerenciar \textit{Ticket}}
+
+A Tabela~\ref{tab:uc02_gerenciar_ticket} apresenta o caso de uso UC02, que descreve as ações relacionadas à criação, edição e visualização de \textit{tickets} por diferentes perfis de usuário no sistema, respeitando os níveis de acesso definidos.
+
+\begin{table}[h]
+\centering
+\caption{Descrição do Caso de Uso UC02 - Gerenciar \textit{Ticket}}
+\label{tab:uc02_gerenciar_ticket}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cllll}
+\hline
+\rowcolor[HTML]{CCCCCC} 
+Nome do caso de uso                                                                     & \multicolumn{4}{c}{\cellcolor[HTML]{CCCCCC}UC02 - Gerenciar \textit{Ticket}} \\ \hline
+\cellcolor[HTML]{CCCCCC}Ator principal                                                  & \multicolumn{4}{l}{{\color[HTML]{333333} Cliente, Funcionário, Gerente}}      \\
+\cellcolor[HTML]{CCCCCC}Atores secundários                                              & \multicolumn{4}{l}{-}                                                          \\
+\cellcolor[HTML]{CCCCCC}Resumo                                                          & \multicolumn{4}{l}{\begin{tabular}[c]{@{}l@{}}Permite criar, alterar e visualizar \textit{tickets} no sistema com\\ diferentes níveis de acesso.\end{tabular}} \\ \hline
+\cellcolor[HTML]{CCCCCC}Pré-condições                                                   & \multicolumn{4}{l}{Usuário deve estar autenticado no sistema.}                 \\
+\cellcolor[HTML]{CCCCCC}Pós-condições                                                   & \multicolumn{4}{l}{Registro de \textit{ticket} atualizado no histórico do sistema.} \\
+\rowcolor[HTML]{CCCCCC} 
+\multicolumn{5}{c}{\cellcolor[HTML]{CCCCCC}Cenário Principal}                           \\
+\rowcolor[HTML]{CCCCCC} 
+Ações do ator                                                                           & \multicolumn{4}{c}{\cellcolor[HTML]{CCCCCC}Ações do sistema}                   \\
+\multicolumn{1}{l}{1) Preencher dados do \textit{ticket} (título, descrição, categoria)}         & \multicolumn{4}{l}{2) Validar informações}                                     \\
+\multicolumn{1}{l}{}                                                                    & \multicolumn{4}{l}{3) Registrar \textit{ticket} no sistema}                    \\
+\multicolumn{1}{l}{4) Buscar \textit{ticket} existente}                                 & \multicolumn{4}{l}{5) Exibir detalhes completos}                               \\
+\multicolumn{1}{l}{6) Modificar informações (status/descrição)}                         & \multicolumn{4}{l}{7) Atualizar registro}                                      \\
+\cellcolor[HTML]{CCCCCC}Restrições/Validações                                           & \multicolumn{4}{l}{\cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}l@{}}- Histórico de alterações deve ser registrado\\ - Clientes só podem criar/visualizar próprios \textit{tickets}\\ - Gerentes têm acesso total a todos os \textit{tickets} do seu departamento\\ - Funcionários podem editar \textit{tickets} atribuídos a eles\end{tabular}} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+
+\newpage
+
+\subsubsection{UC03 - Fazer Comentário}
+
+A Tabela~\ref{tab:uc03_fazer_comentario} apresenta o caso de uso UC03, que descreve o processo de inclusão de comentários em \textit{tickets} já existentes. Essa funcionalidade é essencial para promover a comunicação entre usuários do sistema, permitindo que clientes e funcionários acompanhem o andamento e interajam nos chamados.
+
+\begin{table}[h]
+\centering
+\caption{Descrição do Caso de Uso UC03 - Fazer Comentário}
+\label{tab:uc03_fazer_comentario}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cllll}
+\hline
+\rowcolor[HTML]{CCCCCC} 
+Nome do caso de uso                                                                     & \multicolumn{4}{c}{\cellcolor[HTML]{CCCCCC}UC03 - Fazer Comentário}                         \\ \hline
+\cellcolor[HTML]{CCCCCC}Ator principal                                                  & \multicolumn{4}{l}{{\color[HTML]{333333} Cliente, Funcionário}}                             \\
+\cellcolor[HTML]{CCCCCC}Atores secundários                                              & \multicolumn{4}{l}{-}                                                                       \\
+\cellcolor[HTML]{CCCCCC}Resumo                                                          & \multicolumn{4}{l}{\begin{tabular}[c]{@{}l@{}}Permite adicionar comentários aos \textit{tickets} para\\ comunicação entre as partes.\end{tabular}}                                     \\ \hline
+\cellcolor[HTML]{CCCCCC}Pré-condições                                                   & \multicolumn{4}{l}{\begin{tabular}[c]{@{}l@{}}- \textit{Ticket} deve existir no sistema\\ - Usuário deve ter acesso ao \textit{ticket}\end{tabular}}                                            \\
+\cellcolor[HTML]{CCCCCC}Pós-condições                                                   & \multicolumn{4}{l}{\begin{tabular}[c]{@{}l@{}}Comentário registrado com data/hora no \\ histórico do \textit{ticket}.\end{tabular}}                                                    \\
+\rowcolor[HTML]{CCCCCC} 
+\multicolumn{5}{c}{\cellcolor[HTML]{CCCCCC}Cenário Principal}                               \\
+\rowcolor[HTML]{CCCCCC} 
+Ações do Ator                                                                           & \multicolumn{4}{c}{\cellcolor[HTML]{CCCCCC}Ações do sistema}                                \\
+\multicolumn{1}{l}{1) Preencher dados do comentário (título, descrição)}                & \multicolumn{4}{l}{\begin{tabular}[c]{@{}l@{}}2) Validar informações e se o \textit{ticket} do comentário\\ existe\end{tabular}}                                                       \\
+\multicolumn{1}{l}{}                                                                    & \multicolumn{4}{l}{3) Registrar comentário no sistema}                                      \\
+\multicolumn{1}{l}{}                                                                    & \multicolumn{4}{l}{4) Atualizar histórico do \textit{ticket}}                               \\
+\cellcolor[HTML]{CCCCCC}Restrições/Validações                                           & \multicolumn{4}{l}{\cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}l@{}}- Cliente só comenta em próprios \textit{tickets}\\ - Funcionário só comenta em \textit{tickets} atribuídos\end{tabular}} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+
+\subsection{Diagrama de Sequência}
+
+O diagrama de sequência é um artefato da UML que descreve a interação entre objetos ou componentes do sistema ao longo do tempo. Ele representa, em uma visão temporal, a troca de mensagens entre atores (Cliente, Controller, Service, Repositório) e evidencia a ordem e o fluxo das chamadas, desde a requisição até a resposta final. Esse diagrama é especialmente útil para:
+
+\begin{itemize}
+    \item Validar cenários de uso complexos, mostrando passo a passo como as operações são encadeadas.
+    \item Identificar pontos de integração entre camadas (por exemplo, controller–service–repository).
+    \item Documentar o comportamento dinâmico do sistema, facilitando a comunicação entre desenvolvedores e analistas.
+\end{itemize}
+
+A Figura \ref{fig:diagramadeSequenciaUsuario} demonstra o fluxo de criação do usuário, na qual, ao receber a requisição de criação de usuário, o \textit{Controller} delega a operação ao \textit{Service}. Este primeiro verifica se já existe um usuário com o mesmo e-mail ou CPF; em caso positivo, retorna um erro de duplicação (400 Bad Request). Se os dados forem válidos, o \textit{Service} codifica a senha (BCrypt), persiste a entidade no banco e dispara um e-mail de confirmação. Finalmente, retorna ao \textit{Controller} a resposta de sucesso (201 Created), que a envia de volta ao cliente.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figuras/diagramas/sequencia/Diagrama de sequencia - CadastroUsuario.png}
+    \caption{Diagrama de sequência do usuário}
+    \label{fig:diagramadeSequenciaUsuario}
+\end{figure}
+
+\newpage
+Já a Figura~\ref{fig:diagramadeSequenciaRegraPrioridade} ilustra o diagrama de sequência para o fluxo de criação de uma nova regra de prioridade. Esse diagrama evidencia a interação temporal entre os componentes do sistema: o {\tt Cliente}, o {\tt RegraPrioridadeController}, o serviço {\tt RegraPrioridadeServiceImpl}, os serviços de {\tt Categoria} e {\tt Departamento} e o {\tt RegraPrioridadeRepository}.
+
+A Figura~\ref{fig:diagramadeSequenciaRegraPrioridade} ilustra, passo a passo, o processo de criação de uma nova regra de prioridade a partir de uma requisição feita por um cliente.
+
+O fluxo se inicia quando o cliente envia os dados da nova regra ao \textit{Controller}. Em seguida, o \textit{Controller} repassa essas informações ao \textit{Service}, onde ocorre o processamento da lógica de negócio. Dentro do \textit{Service}, diversas etapas importantes são executadas:
+
+\begin{itemize}
+    \item Os dados recebidos são convertidos para o formato interno utilizado pelo sistema;
+    \item O sistema verifica se a categoria e o departamento informados existem, consultando serviços especializados;
+    \item Todos os dados são validados e preparados para persistência.
+\end{itemize}
+
+Após essas verificações, a nova regra é salva no banco de dados. Como medida de otimização, o sistema limpa o cache de regras, garantindo que as próximas consultas retornem informações atualizadas. Por fim, o sistema formata a resposta e a envia de volta ao cliente, confirmando a criação da regra com sucesso (código HTTP~201).
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figuras/diagramas/sequencia/Diagrama de sequencia - Regra Prioridade.png}
+    \caption{Diagrama de sequência da Regra de Prioridade}
+    \label{fig:diagramadeSequenciaRegraPrioridade}
+\end{figure}
+
+\newpage
+
+\subsection{Diagrama de Classes de domínio}
+A Figura~\ref{fig:diagramadeclasse} apresenta o diagrama de classes que representa a estrutura fundamental de um sistema de gerenciamento de \textit{tickets}, típico de aplicações como helpdesk ou suporte técnico. Abaixo, são detalhados os principais componentes e seus relacionamentos:
+
+\subsubsection*{Principais Classes}
+
+\begin{itemize}
+    \item \textbf{\textit{Ticket}:} Classe central do sistema. Armazena informações essenciais como descrição, datas (criação, modificação, prazo), status atual e associações com outras entidades.
+    
+    \item \textbf{Usuario:} Representa os usuários cadastrados no sistema. Contém atributos como nome, e-mail, status e tipo de usuário, definido por um enumerador (\texttt{UsuarioRole}).
+    
+    \item \textbf{Departamento:} Modela os setores da organização. Inclui dados como nome, informações de contato e horário de funcionamento.
+    
+    \item \textbf{Comentario:} Permite que os usuários adicionem observações ou mensagens relacionadas aos \textit{tickets}.
+    
+    \item \textbf{TicketHistorico:} Armazena registros das alterações realizadas nos \textit{tickets}, funcionando como um log de mudanças.
+    
+    \item \textbf{ReparPrioridade:} Responsável pela gestão das prioridades dos \textit{tickets}, com métodos específicos para cálculo do nível de prioridade e do tempo restante.
+    
+    \item \textbf{Anexo:} Permite a associação de arquivos aos \textit{tickets} ou a outras entidades do sistema.
+\end{itemize}
+
+\subsubsection*{Tipos Enumerados (Enums)}
+
+\begin{itemize}
+    \item \textbf{StatusTicket:} Define os estados possíveis de um \textit{ticket}, como \texttt{Aberto}, \texttt{Em\_Andamento} e \texttt{Finalizado}.
+    
+    \item \textbf{UsuarioRole:} Enumeração que representa os papéis dos usuários no sistema, como \texttt{Administrador}, \texttt{Funcionário} e \texttt{Cliente}.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figuras/diagramas/classe/Diagrama_de_classe.png}
+    \caption{Diagrama de classe}
+    \label{fig:diagramadeclasse}
+\end{figure}
+
+\newpage
+
+\section{Definição de Tecnologias e Ferramentas}
+
+Para o desenvolvimento do sistema, foram definidas as seguintes tecnologias, considerando critérios como robustez, compatibilidade com o escopo do projeto, comunidade ativa e facilidade de integração entre os componentes:
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Tecnologia} & \textbf{Aspecto} & \textbf{Descrição} \\ \hline
+            Java & Linguagem & Desenvolvimento do Back-end (API REST) \\ \hline
+            Spring Boot & Framework & Framework para aplicações Java \\ \hline
+            RabbitMQ & Mensageria & Fila para comunicação assíncrona \\ \hline
+            MySQL & SGBD & Banco de dados relacional \\ \hline
+            IntelliJ IDEA & IDE & Desenvolvimento do Back-end \\ \hline
+            Git & Versionamento de Código & Controle de versão local \\ \hline
+            GitHub & Versionamento de Código & Armazenamento e colaboração em nuvem \\ \hline
+            Postman & Testes de API & Testes e validação das requisições da API \\ \hline
+        \end{tabular}%
+    }
+    \caption{Tabela consolidada de tecnologias, aspectos e descrições}
+    \label{tab:consolidado_tecnologia}
+\end{table}

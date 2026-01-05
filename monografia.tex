@@ -1,0 +1,173 @@
+%-------------------------------------------------------------------------
+% Modelo de monografia
+% confeccionado em março de 2019, 
+% by Cristiane de Fátima dos Santos Cardoso
+% plataforma: windows 7, miktex 2.9.48, TexMaker 4.1
+% versao 2.0
+%------------------------------------------------------------------------
+%\documentclass[12pt,a4paper, chapter=TITLE,section=TITLE,alf,oneside]{abntex2} %estilo abnt um lado
+%------------------------------------------------------------------------
+%se desejar a impressão frente e verso retire o simbolo de porccentagem da linha abaixo e coloque na linha de cima. Observe que a impressão frente e verso gera diversas folhas em branco, isso não é uma falha!!!! Capítulos sempre devem ser iniciados na próxima folha a direita!
+%------------------------------------------------------------------------
+%\documentclass[12pt,a4paper,alf]{abntex2} % estilo abnt frente e verso
+\documentclass[12pt, a4paper]{report}
+%------------------------------------------------------------------------
+
+\usepackage{formatacao}      
+\usepackage{tabularx}
+\usepackage{graphicx}     
+\usepackage{pdfpages}
+% estilo proprio
+\makenomenclature                          % construir lista de acronimos
+%
+%--------------------------------------------------------------------
+% DEFINIÇÕES
+%           Fornecendo as informações abaixo, automaticamente serão 
+%			geradas: capa e a seção de identificação
+%---------------------------------------------------------------------
+%IMPORTANTE: caso haja dois autores faça como no exemplo
+%	\def\autor{João da Silva e Maria da Silva}						
+%---------------------------------------------------------------------
+
+\def\autor{Bruno César Vieira Fernandes}                		 %Autor
+\def\autordois{Luan de Castro Ribeiro}
+\def\titulo{DESENVOLVIMENTO DO APLICATIVO IF RIDE PARA FACILITAÇÃO DE CARONAS NO INSTITUTO FEDERAL GOIANO - CÂMPUS URUTAÍ} 				 %Titulo em letra maiúscula
+\def\instituicao{Instituto Federal Goiano}
+\def\campus{Campus Urutaí} 
+\def\unidade{Núcleo de Informática}   			 %Unidade 
+\def\curso{Sistemas de Informação}
+
+
+\def\orientador{Junio César Vieira de Lima}            
+
+\def\titulacaoorientador{Dr.} 
+
+\def\avaliadorum{Professor 1}
+\def\titulacaoavaliadorum{PhD.}
+\def\avaliadordois{Professor 2}
+\def\titulacaoavaliadordois{Dr.}
+
+\def\local{Urutaí}
+\def\datadefesa{23 de agosto de 2024} 
+\def\tipo{Monografia}%Dissertação
+\def\qualificacao{Bacharel}%Licenciatura
+\def\area{\curso}
+\def\tema{confecção de Trabalho de Curso}
+\def\data{\today} 
+\makeglossary
+%------------------------------------------------------------ 	
+\begin{document}
+%------------------------------------------------------------
+% ELEMENTOS PRE-TEXTUAIS
+%		não é necessário editar capa, folha de rosto e folha 
+%		de aprovação! para editar o resumo entre na pasta 
+%		pretextuais e localize o arquivo resumo.tex, editando-o 
+%		conforme as dicas, faça o mesmo com fichacatalografica.tex,
+%		dedicatoria.tex, agradecimentos.tex, epigrafe.tex. 
+%		Acrescente um % na frente de elementos opcionais que 
+%		não desejar na sua monografia
+%--------------------------------------------------------------
+\include{pretextuais/capa}                   %inserindo a capa
+%---------------------------------------------------------------------
+\clearpage{\pagestyle{empty}\cleardoublepage %contracapa
+\setcounter{page}{1}                         %começa a contar daqui
+%\renewcommand{\thepage}{\roman{page}}        %o tipo de numeração    
+\pagenumbering{arabic}
+\pagestyle{empty}
+
+\setcounter{page}{1}   
+
+\includepdf[pages=-]{pretextuais/ficha-catalografica.pdf}
+
+\begin{center}
+    \includegraphics[width=\textwidth,height=0.9\textheight]{pretextuais/TCAE_-_Termo_de_autorizacao_1.jpg}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=\textwidth,height=0.9\textheight]{pretextuais/TCAE_-_Termo_de_autorizacao_2.jpg}
+\end{center}
+
+
+\includepdf[pages=-]{pretextuais/ata_defesa.pdf}
+
+
+\includepdf[pages=-]{pretextuais/folhaaprovacao_diegofelipe.pdf}
+
+\include{pretextuais/agradecimentos}       %agradecimentos-opcional
+%\include{pretextuais/epigrafe}             %epigrafe-opcional
+\include{pretextuais/resumo}               %resumo
+%\include{pretextuais/abstract}             %resumo
+
+\clearpage{\pagestyle{empty}\cleardoublepage %verso do resumo em branco
+
+
+
+\pagestyle{plain}
+
+\renewcommand{\thepage}{\roman{page}}
+\clearpage\listoffigures                        %lista de figuras - opcional
+\newpage
+\listoftables                        		    %lista de tabelas - opcional
+\newpage
+%\listofalgorithms                               %lista de algoritmos - opciona
+\renewcommand{\nomname}{Lista de abreviaturas e siglas}     %renomeando lista de acronimos
+\renewcommand{\pagedeclaration}{Pag.}            %renomeando lista de acronimos
+\printnomenclature	\label{listaacronimos}						    %gerando a lista de acronimos
+\newpage
+\tableofcontents   							    %inserindo o sumário
+\clearpage
+%-----------------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+%		localize cada um dos arquivos na pasta textuais
+%       e edite da forma que desejar, caso necessite de 
+% 		mais capitulos  é só criar os arquivos e incluir
+%-----------------------------------------------------------------
+\setlength{\baselineskip}{1.5\baselineskip}  %espaçamento entrelinhas 1.5
+\pagestyle{fancy}							 %tipo de estilo da página - cabeçalho e rodapé
+\renewcommand{\thepage}{\arabic{page}}
+\citeoption{abnt-etal-cite=2}           % a partir de 2 autores, usa o et al.
+
+\include{textuais/cap1}                 
+\include{textuais/cap2}               
+\include{textuais/cap3}                 
+\include{textuais/cap4}
+\include{textuais/cap5} 
+\include{textuais/conclusao}            
+%---------------------------------------------------------------------
+% BIBLIOGRAFIA
+%		Edite o arquivo bibliografia, apenas acrescentando 
+%		novas obras, não é necessário remover nada pois o 
+%		latex insere somente as obras referenciadas. Ele também
+%		ordena tudo!!! A configuração padrão deste modelo é a 
+%		ordem alfabética (uma alternativa seria a ordem de 
+%		citação no texto)
+%       Para facilitar a confecção da bibliografia recomenda-se o 
+% 		uso de aplicativos como Mendeley que gera arquivos .bib
+%
+%		IMPORTANTE: é necessário atualizar o documento todas 
+%		as vezes que inserir um novo item na bibliografia. 
+%		Procure o manual do seu editor para Saber como proceder.
+%		Exemplo: TeXMaker 3.5.2
+%		F11 para gerar o arquivo BBL
+%       e para atualizar a bibliografia no documento:
+%		menu <Editar>-opção <Atualizar Bibliografia> - atualize no arquivo
+%		que contem a citação! 
+%		pode ser necessário compilar/atualizar
+%		mais de uma vez: NÃO SE ACANHE! SEJA INSISTENTE!
+% 		
+%--------------------------------------------------------------------
+%\bibliographystyle{abntex2-num}
+%\bibliographystyle{plainnat}
+\bibliography{postextuais/bibliografia3}%inserindo a bibliografia
+%%--------------------------------------------------------------------
+%% ELEMENTOS POS-TEXTUAIS
+%%		localize cada um dos arquivos na pasta postextuais
+%%       e edite da forma que desejar! Caso não possua 
+%%		apêndice ou anexos basta adicionar um sinal 
+%%		de % na frente  do \include
+%% 		
+%%--------------------------------------------------------------------
+%\printglossary                           %imprimindo o glossário
+%\include{postextuais/apendice} 
+%\include{postextuais/anexo} 
+\end{document}

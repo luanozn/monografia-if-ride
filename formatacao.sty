@@ -1,0 +1,213 @@
+\usepackage[Glenn]{fncychap}
+
+\usepackage[utf8]{inputenc}        % acentuação e cedilha
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{kpfonts}
+\usepackage{titletoc}
+\usepackage[brazil]{babel}         % titulos em português
+%\usepackage[T1]{fontenc}           % codificação
+\usepackage{graphicx}			   % para inserir figuras
+\usepackage[verbose,a4paper,tmargin=30mm,bmargin=20mm,lmargin=30mm,rmargin=20mm]{geometry}
+% configurando margens
+\usepackage{indentfirst}
+%\usepackage[colorlinks]{hyperref}				% para criar links no
+\usepackage{hyperref}				% para criar links no documento 
+\usepackage{fancyhdr}				% para cabeçalhos e rodapés
+\usepackage{mathptmx}               % fonte estilo times
+\usepackage{nomencl}                % para construir a lista de acronimos
+%\usepackage{glossary}
+\pagestyle{headings}
+\usepackage{algorithmic}
+\usepackage[portuguese, ruled, linesnumbered]{algorithm2e}
+\usepackage[alf,bibjustif,abnt-dont-use-etal=yes]{abntex2cite}
+
+\usepackage{microtype}   %para melhorias na justificação
+\setlength{\parindent}{1.25cm}
+\usepackage{calligra}
+\usepackage{longtable}
+\usepackage[skip=7pt,font=small,labelfont=bf,labelsep= colon]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{multicol}
+\usepackage[T1]{fontenc}
+\usepackage{sidecap}
+\usepackage{graphicx} 
+\usepackage{float} 
+
+\usepackage{venndiagram}
+\usepackage{afterpage}
+\usepackage{array}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{shapes.geometric}
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows,fit,positioning}
+\usepackage{multirow}
+ \usepackage{colortbl}
+ \usepackage{hhline}
+ \usepackage{pdfpages}
+\usepackage{verbatim}
+\usepackage[utf8]{inputenc} % Suporte para caracteres acentuados
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    escapeinside={\%*}{*)}
+}
+
+\captionsetup{ subrefformat=parens}    %fazer o subcaption
+\renewcommand{\bottomfraction}{1}   %diminuir o recuo na parte debaixo para inserir floats
+
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}} %definindo colunas de tabelas centralizada e com largura fixa
+
+%estilo de cabeçalho da página
+\lhead{\textit{\scriptsize \rightmark}}
+\chead{}
+\rhead{\thepage}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+\newenvironment{dedicatoria}{
+ \ifpdf
+  \pdfbookmark[1]{DEDICATÓRIA}{pretexto.6}
+ \fi
+ \normalfont\vspace*{\stretch{1}}
+  \setlength{\baselineskip}{1\baselineskip} \normalfont%
+  \vspace*{\stretch{1}}\par%
+}{\clearpage}
+
+%%% Agradecimentos
+%%% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\newenvironment{agradecimentos}{
+ \ifpdf
+  \pdfbookmark[1]{AGRADECIMENTOS}{pretexto.7}
+ \fi
+ \@makeschapterhead{AGRADECIMENTOS}
+}{\clearpage}
+
+
+
+
+%%% Epígrafe
+%%% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\newcommand{\epigrafe}[3]{%
+  \ifpdf
+   \pdfbookmark[1]{EPÍGRAFE}{pretexto.10}
+  \fi
+  \setlength{\baselineskip}{1\baselineskip} \normalfont%
+  \vspace*{\stretch{1}}\par%
+  \begin{quotation}%
+  #1%
+  \par%
+  \begin{flushright}
+  \textbf{#2}, \\ \textit{#3}.
+  \end{flushright}%
+  \end{quotation}%
+}
+
+\newcommand{\siglaf}[2]{%
+#2 (\hyperref[listaacronimos]{#1})\label{#1}\nomenclature{\hyperref[#1]{\textmd{#1}}}{\textmd{ #2}. \nomrefpage}%
+}
+
+
+\newcommand{\sigla}[2]{%
+#2 (\hyperref[listaacronimos]{#1})\label{#1}\nomenclature{\hyperref[#1]{#1}}{#2. \nomrefpage}%
+}
+
+\newcommand{\siglai}[2]{%
+\hyperref[listaacronimos]{#1} (#2)\label{#1} 
+\nomenclature{\hyperref[#1]{#1}}{#2. \nomrefpage}%
+}
+
+\newcommand{\sig}[1]{%
+\hyperref[listaacronimos]{#1}% 
+}
+\newcommand{\siglabranca}[2]{%
+\nomenclature{#1}{#2. \nomrefpage}%
+}
+
+%% Notas
+%% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\newcommand{\nota}[1]{%
+\vspace{0.5cm}
+\noindent
+\begin{minipage}{\textwidth}
+\begin{center}
+\begin{tabular}{|p{0.8\textwidth}|}
+\hline \\
+\vspace{-0.7cm}\emph{\textbf{Nota:} #1}\\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage}
+\vspace{0.4cm}%
+}%
+
+
+\newcommand{\citacaodireta}[3]{%
+\begin{footnotesize}
+\hspace{4cm}
+\begin{tabular}{p{10.5cm}}
+\setlength{\baselineskip}{\baselineskip}
+\vspace{0.8cm}
+#1 \cite[p~#3]{#2}.
+\vspace{0.8cm}
+\end{tabular}
+\end{footnotesize}%
+}%
+
+\newcommand{\fontewww}[3]{
+\caption*{\small{\textbf{Fonte:} #1}}
+\caption*{\small{Disponível em: \url{#2} acessado em #3. }}
+}
+
+\newcommand{\fontewwwcaption}[1]{
+\small{\textbf{Fonte:} #1\footnotemark{}.}
+}
+\newcommand{\fontewwwfoot}[3]{
+\footnotetext[#3]{Disponível em: \url{#1} acessado em #2.}
+}
+
+
+\newcommand{\fonte}[1]{
+\begin{small}
+\textbf{Fonte:} #1.
+\end{small}
+}
+
+\newcommand{\fonteautor}{
+\begin{small}
+\textbf{Fonte:} Elaborado pela autora.
+\end{small}
+}
+\newcounter{savefootnote}% Save footnote counter
+
+
+\newcommand\lv{%
+\arrayrulecolor{white}\hline \hline}
+
+\newcommand\lp{%
+\arrayrulecolor{black} \hline}
+
+
+

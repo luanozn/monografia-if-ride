@@ -1,0 +1,115 @@
+\chapter{Fundamentos Teóricos}
+
+Esta seção apresenta os conceitos e bases teóricas que fundamentam o desenvolvimento da \siglai{API}{\textit{Application Programming Interface} ou Interface de Programação de Aplicações} para gerenciamento de \textit{tickets} de serviço. São abordados os temas de atendimento ao cliente, integração de sistemas por meio de APIs, práticas de segurança e as limitações das soluções tradicionais, evidenciando como esses conhecimentos orientam as escolhas do projeto.
+
+\section{Serviços disponibilizados por meio de \textit{Tickets}}
+
+Nesta seção, será ilustrado um serviço de suporte técnico, onde os usuários podem abrir \textit{tickets} para solicitar assistência em relação a problemas técnicos em um produto ou serviço oferecido por uma empresa. O sistema de gerenciamento de \textit{tickets} permite que os usuários classifiquem os chamados com base em categorias e prioridades, facilitando o direcionamento adequado e a resolução eficiente dos problemas.
+
+\subsection{Exemplo de Serviço: Suporte Técnico}
+Suponha que um cliente enfrenta dificuldades técnicas com um software oferecido por uma empresa. O cliente cria um \textit{ticket} por meio do sistema, e o serviço de suporte técnico começa a agir com base em categorias e prioridades predefinidas.
+
+\subsubsection{Categorização de \textit{Tickets}}
+Os tickets podem ser classificados em diferentes categorias para garantir que a equipe de suporte atenda à solicitação corretamente e de forma rápida. Algumas categorias possíveis incluem:
+
+\begin{itemize} \item \textbf{Problema Técnico:} Relacionado a falhas de sistema, bugs ou erros no software. \item \textbf{Pedido de Melhoria:} Solicitações para novas funcionalidades ou melhorias no produto. \item \textbf{Dúvida de Uso:} Questões relacionadas ao uso do sistema ou dúvidas de configuração. \item \textbf{Solicitação de Suporte:} Pedido de assistência em tarefas específicas, como instalação ou configuração. \end{itemize}
+
+\subsubsection{Prioridades dos \textit{tickets}}
+A prioridade de cada \textit{ticket} pode ser definida com base na urgência e impacto do problema. Exemplos de níveis de prioridade podem incluir:
+
+\begin{itemize} \item \textbf{Alta:} O \textit{ticket} refere-se a um problema crítico, que impacta diretamente o funcionamento do sistema ou da operação do cliente. \item \textbf{Média:} O \textit{ticket} se refere a um problema significativo, mas não crítico, que pode ser resolvido com um pouco mais de tempo. \item \textbf{Baixa:} O \textit{ticket} se refere a um problema menor ou a uma dúvida que não impacta significativamente a operação ou o uso do sistema. \end{itemize}
+
+\subsection{Descrição do Processo de Gerenciamento de \textit{Tickets}}
+O processo de gerenciamento de \textit{tickets} inicia com a criação de um \textit{ticket} pelo cliente, onde ele especifica a categoria (ex: "Problema Técnico") e a prioridade (ex: "Alta"). Após o envio, o sistema encaminha o \textit{ticket} para a equipe de suporte apropriada, de acordo com a categoria selecionada. O \textit{ticket} será então classificado por um atendente que, dependendo da prioridade, tomará ações imediatas, como entrar em contato com o cliente para obter mais informações ou iniciar uma solução.
+
+Os \textit{tickets} de alta prioridade são atendidos primeiro, enquanto os de baixa prioridade são programados para resolução em prazos mais extensos. O agendamento das resoluções é feito com base na prioridade definida no momento da criação do ticket. Cada nível de prioridade está associado a um tempo máximo de resolução: por exemplo, tickets de alta prioridade devem ser solucionados em até 4 horas após a sua criação, enquanto tickets de baixa prioridade possuem um prazo de até 3 dias corridos. Esses prazos servem como base para a organização da fila de atendimento e para o monitoramento dos acordos de nível de serviço (SLA).
+O processo de resolução, por sua vez, envolve a análise do problema, a execução das correções necessárias e a comunicação com o cliente sobre o andamento ou a solução final.
+
+
+\section{Atendimento ao Cliente e Sistemas de Suporte}
+A excelência no atendimento ao cliente é considerada um dos principais diferenciais competitivos no mercado atual. Empresas de diversos segmentos têm percebido que a satisfação do cliente está diretamente ligada à eficiência dos processos de suporte e à rapidez na resolução de problemas \cite{FITZSIMMONS}. Sistemas de gerenciamento de \textit{tickets} são fundamentais para estruturar esse atendimento, pois permitem:
+
+\begin{itemize}
+    \item[$\bullet$] \textbf{Centralização das demandas:} Reunindo todas as solicitações em um único ambiente, o que facilita o monitoramento e o controle do fluxo de atendimento.
+    \item[$\bullet$] \textbf{Priorização e categorização:} Possibilitando que os chamados sejam organizados de acordo com a urgência e a natureza do problema.
+    \item[$\bullet$] \textbf{Análise de desempenho:} Permite identificar gargalos e oportunidades de melhoria nos processos de suporte.
+\end{itemize}
+
+
+\citeonline{FITZSIMMONS} destacam que a padronização e a centralização dos processos de atendimento não apenas agilizam a resolução dos chamados, mas também proporcionam uma visão integrada que contribui para a melhoria contínua dos serviços prestados. Assim, sistemas bem estruturados de gerenciamento de \textit{tickets} se tornam essenciais para a fidelização dos clientes e para a construção de uma reputação positiva no mercado.
+   
+\section{APIs e Integração de Sistemas}
+
+APIs são componentes fundamentais na arquitetura de sistemas modernos, pois permitem a comunicação entre diferentes plataformas e a troca padronizada de dados. Essa integração é vital para empresas que utilizam múltiplos sistemas para gerenciar suas operações, já que:
+
+\begin{itemize}
+    \item[$\bullet$] \textbf{Facilita a interoperabilidade:} Uma API bem projetada possibilita que diferentes sistemas corporativos se comuniquem de forma eficaz, eliminando barreiras e redundâncias.
+    \item[$\bullet$] \textbf{Promove a flexibilidade:} Ao adotar padrões como \siglai{REST}{\textit{Representational State Transfer} ou Transferência de Estado Representacional}, proposto por Fielding \cite{fielding2000architectural}, as APIs possibilitam a criação de soluções customizáveis que se adaptam às necessidades específicas de cada negócio.
+    \item[$\bullet$] \textbf{Agiliza a inovação:} APIs permitem que novas funcionalidades sejam integradas sem a necessidade de grandes reformulações na infraestrutura existente.
+\end{itemize}
+
+\citeonline{Geewax} destaca que a clareza e a consistência na definição de endpoints, métodos e formatos de dados são essenciais para garantir a escalabilidade e a facilidade de manutenção das integrações. Dessa forma, a utilização de APIs não só otimiza os processos internos, como também abre caminho para a criação de ecossistemas digitais mais robustos e interconectados.
+
+\section{Segurança e Autenticação}
+
+Em um cenário de crescente exposição a ameaças cibernéticas, a segurança dos dados e o controle de acesso são imperativos em qualquer sistema de informação. No contexto do gerenciamento de \textit{tickets}, onde informações sensíveis e dados dos clientes estão envolvidos, adotar mecanismos de segurança robustos é crucial.
+
+Dentre esses mecanismos, a autenticação baseada em \textit{JSON Web Token} (JWT) se destaca por sua eficiência e segurança. O JWT é um padrão aberto para transmissão segura de informações entre partes como um objeto JSON compactado e criptografado.
+
+Basicamente, o processo funciona assim: quando um usuário faz login, o servidor gera um token JWT contendo informações codificadas, como a identidade do usuário e permissões, e o assina digitalmente. Esse token é então enviado ao cliente, que o utiliza para autenticar suas requisições subsequentes ao servidor. O servidor pode validar a autenticidade do usuário sem precisar manter estado, o que melhora a escalabilidade.
+
+As principais vantagens do uso do JWT incluem:
+
+\begin{itemize}
+\item[$\bullet$] \textbf{Controle de acesso seguro:} Apenas usuários com tokens válidos e autorizados conseguem acessar recursos protegidos, evitando acessos indevidos.
+\item[$\bullet$] \textbf{Escalabilidade e desempenho:} Por ser \textit{stateless} (não manter estado no servidor), facilita a distribuição do sistema em múltiplos servidores e reduz a necessidade de consultas constantes ao banco de dados para autenticação.
+\item[$\bullet$] \textbf{Flexibilidade na transmissão de informações:} O token pode conter diversas informações (claims) que ajudam na autorização granular e no controle de permissões.
+\item[$\bullet$] \textbf{Adoção de boas práticas e compatibilidade:} JWT é amplamente suportado em diversos frameworks, linguagens e plataformas, alinhando-se às recomendações atuais de segurança e protocolos como OAuth 2.0 \cite{chapman2020api}.
+\end{itemize}
+
+\section{Comparação com Soluções Existentes}
+
+Ferramentas genéricas de gerenciamento de tickets, como Zendesk, Freshdesk e Zoho Desk, têm ganhado ampla adoção no mercado por oferecerem soluções prontas, com funcionalidades voltadas ao atendimento por múltiplos canais, automações básicas e dashboards integrados. De acordo com relatórios de consultorias como a Gartner, essas plataformas se destacam pela facilidade de implantação e escalabilidade em ambientes padronizados.
+Contudo, análises comparativas disponíveis em repositórios como G2 e Capterra, indicam que essas ferramentas apresentam limitações no que se refere à personalização de fluxos de trabalho e à integração com sistemas corporativos legados ou soluções internas. Empresas com requisitos específicos — como integrações com ERPs próprios, regras de atendimento customizadas ou segmentações por unidade de negócio — relatam dificuldades em adaptar completamente essas plataformas às suas necessidades, o que pode comprometer a eficiência operacional e a aderência aos processos internos.
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Característica} & \textbf{Zendesk} & \textbf{Freshdesk} & \textbf{Zoho Desk} \\ \hline
+Interface amigável e intuitiva &  Sim &  Sim &  Sim \\ \hline
+Customização avançada de fluxos e regras &  Alta &  Baixa &  Média \\ \hline
+Integração com sistemas legados/ERPs &  Limitada &  Limitada &  Limitada \\ \hline
+APIs robustas para integração &  Sim &  Sim &  Sim \\ \hline
+Automação de \textit{tickets} e respostas &  Sim &  Sim &  Sim \\ \hline
+Gerenciamento de SLA e métricas &  Sim &  Sim &  Sim \\ \hline
+Controle de acesso e permissões avançado &  Limitado &  Limitado &  Limitado \\ \hline
+Hospedagem local (on-premises) &  Não &  Não &  Não \\ \hline
+Preço &  Caro &  Mais acessível &  Mais acessível \\ \hline
+\end{tabular}
+\caption{Comparativo de Características em Sistemas de Gerenciamento de \textit{Tickets}}
+\label{table:comparativo_tickets}
+\end{table}
+
+Em contrapartida, a proposta deste projeto se diferencia por:
+
+\begin{itemize}
+    \item[$\bullet$] \textbf{Customização dos fluxos de atendimento:} Permite a definição de processos e níveis de prioridade de acordo com as demandas particulares de cada empresa.
+    \item[$\bullet$] \textbf{Flexibilidade na criação de interfaces:} A possibilidade de desenvolver um Front-End personalizado possibilita uma experiência de usuário alinhada à identidade corporativa e às necessidades operacionais.
+    \item[$\bullet$] \textbf{Integração eficaz com sistemas existentes:} Através de uma API bem estruturada, o sistema facilita a comunicação entre diversas plataformas, promovendo a unificação dos processos de atendimento.
+\end{itemize}
+
+
+
+Essa abordagem customizada é corroborada por estudos recentes que enfatizam a importância de soluções flexíveis para lidar com a heterogeneidade dos ambientes corporativos, onde a padronização rígida pode limitar a adaptabilidade e a inovação dos processos \cite{FITZSIMMONS}.
+
+\section{Desenvolvimento de  APIs RESTful}
+
+Essa convergência está alinhada às recomendações de \cite{amundsen2022restful}, que destaca como o uso de padrões bem definidos no design de APIs RESTful contribui diretamente para a criação de sistemas mais escaláveis, seguros e adaptáveis às necessidades corporativas. A API desenvolvida não apenas melhora a eficiência dos processos de suporte, mas também oferece:
+
+\begin{itemize}
+    \item[$\bullet$] \textbf{Um ambiente integrado e personalizável:} Adaptável às particularidades de cada organização, promovendo maior controle e eficiência.
+    \item[$\bullet$] \textbf{Facilidade de manutenção e escalabilidade:} Devido à sua arquitetura modular, que permite atualizações e expansões sem interrupções significativas.
+    \item[$\bullet$] \textbf{Melhoria contínua dos serviços:} Por meio do monitoramento sistemático dos atendimentos e da análise de indicadores de desempenho.
+\end{itemize}
+
+% Em síntese, a integração dos fundamentos teóricos apresentados demonstra que a solução proposta responde de maneira inovadora aos desafios enfrentados pelas organizações na gestão de seus processos de atendimento, contribuindo para a excelência operacional e a satisfação dos clientes.
