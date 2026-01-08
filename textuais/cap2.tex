@@ -1,4 +1,4 @@
-\chapter{METODOLOGIA}
+\chapter{Metodologia}
 
 Este capítulo descreve os procedimentos técnicos e metodológicos utilizados para o desenvolvimento do \textbf{IF Ride}. O projeto é fundamentado na engenharia de software, para o desenvolvimento do aplicativo e arquitetura.
 
@@ -15,6 +15,16 @@ Neste projeto, foi aplicada a estratégia de desenvolvimento ágil, onde foi fei
 
 O desenvolvimento do IF Ride adota o modelo de arquitetura cliente-servidor, uma estrutura distribuída que separa as tarefas entre os provedores de recursos ou serviços (servidores) e os requerentes de serviços (clientes). Esta escolha visa garantir o desacoplamento entre a interface do usuário e a lógica de negócio, facilitando a manutenção e a evolução independente de cada camada.
 
+\section{Tecnologias e Ferramentas Utilizadas}
+
+O desenvolvimento do aplicativo IF Ride utilizou tecnologias consolidadas e amplamente empregadas em sistemas de informação, selecionadas com base em critérios como maturidade, escalabilidade, suporte da comunidade e aderência aos requisitos do projeto.
+
+Para o desenvolvimento do back-end, foi adotada a linguagem Java, utilizando um framework voltado à construção de aplicações web e APIs RESTful. A persistência dos dados foi realizada por meio de um sistema gerenciador de banco de dados relacional, o PostgreSQL, escolhido por sua confiabilidade e compatibilidade com ambientes de computação em nuvem.
+
+O front-end móvel foi desenvolvido utilizando o framework Flutter, que possibilita a criação de aplicações multiplataforma a partir de uma única base de código, garantindo padronização visual e funcional entre diferentes dispositivos.
+
+A infraestrutura da aplicação foi provisionada em ambiente de computação em nuvem por meio da Amazon Web Services (AWS), utilizando serviços gerenciados para hospedagem da aplicação, armazenamento de dados e controle de acesso, reduzindo a complexidade operacional do sistema.
+
 
 \section{Servidor (Back-End)}
 A arquitetura do servidor foi implementada em Java utilizando o framework Spring Boot, que fornece suporte nativo para o desenvolvimento de APIs RESTful. O REST (\textit{Representational State Transfer}) é um estilo arquitetural definido por \citeonline{fielding2000} que estabelece princípios fundamentais para sistemas distribuídos.
@@ -29,7 +39,7 @@ Segundo a \citeonline{awsrest}, APIs RESTful são interfaces que permitem a troc
     \item \textbf{Integração de Infraestrutura em Nuvem}: O uso de serviços AWS, como o S3 para armazenamento de documentos, demonstra uma arquitetura moderna que delega a gestão de arquivos binários para serviços especializados, focando o código Java estritamente na lógica do domínio.
 \end{enumerate}
 
-\subsubsection{Arquitetura}
+\subsection{Arquitetura}
 A arquitetura desenvolvida tem como estrutura, a AWS \textit{(Amazon Web Services)}, que segundo a própria \cite{awswhatis2025}, é uma provedora de infraestrutura e serviços de computação em nuvem
 
 A Figura~\ref{fig:arquitetura} apresenta o diagrama da arquitetura proposta, evidenciando a interação entre os principais componentes da solução.
@@ -57,3 +67,25 @@ A camada de persistência de dados é composta por um banco de dados relacional 
 Todos os componentes da arquitetura encontram-se inseridos em uma Virtual Private Cloud (VPC), que atua como uma camada adicional de segurança ao restringir o acesso direto aos serviços internos. Essa configuração garante maior isolamento da infraestrutura, limitando a exposição dos recursos à internet pública e reduzindo a superfície de ataque da aplicação.
 
 A arquitetura também prevê a separação dos ambientes de desenvolvimento e produção, permitindo a validação de novas funcionalidades em um ambiente controlado antes de sua disponibilização em produção. Essa separação contribui para a estabilidade da aplicação e reduz riscos associados a alterações no sistema.
+
+\section{Aplicativo Móvel (Front-End)}
+
+O front-end do IF Ride foi desenvolvido utilizando o framework Flutter, um kit de desenvolvimento multiplataforma mantido pela Google, que permite a criação de aplicações nativas para dispositivos Android e iOS a partir de uma única base de código. A escolha do Flutter fundamenta-se na sua capacidade de acelerar o desenvolvimento, garantir consistência visual entre plataformas e facilitar a manutenção do aplicativo ao longo do tempo.
+
+No contexto deste projeto, o aplicativo móvel atua como a camada de apresentação do sistema, sendo responsável pela interação direta com o usuário, coleta de dados de entrada e exibição das informações processadas pelo servidor. Todas as regras críticas de negócio, validações de segurança e controle de estados sensíveis são centralizadas no back-end, evitando que decisões relevantes sejam tomadas no cliente, o que contribui para a integridade e confiabilidade do sistema.
+
+A comunicação entre o aplicativo e o servidor ocorre exclusivamente por meio de requisições HTTP para a API REST desenvolvida em Spring Boot. As trocas de dados utilizam o formato JSON, garantindo interoperabilidade e independência tecnológica entre as camadas. O aplicativo consome os endpoints de autenticação, gestão de usuários, solicitações de motorista e criação de caronas, sempre respeitando as restrições impostas pelo servidor.
+
+O gerenciamento de estado no front-end foi projetado de forma a refletir o estado real do domínio, conforme definido pela API. Por exemplo, usuários que ainda não tiveram sua solicitação de motorista aprovada visualizam a interface com funcionalidades restritas, como o bloqueio da criação de caronas. Essa abordagem reduz inconsistências na experiência do usuário, ao mesmo tempo em que mantém o servidor como única fonte de verdade sobre o estado do sistema.
+
+Do ponto de vista de segurança, o aplicativo utiliza tokens JWT para autenticação das requisições, os quais são armazenados de forma segura no dispositivo e enviados automaticamente no cabeçalho das chamadas à API. O front-end não possui autonomia para alterar permissões ou papéis de usuários, limitando-se a refletir as autorizações concedidas pelo servidor após validação administrativa.
+
+Essa separação clara entre interface e lógica de negócio permite que o aplicativo móvel evolua de forma independente, possibilitando futuras melhorias na experiência do usuário sem impacto direto nas regras centrais do sistema.
+
+\section{Procedimentos de Validação}
+
+A validação do sistema foi conduzida por meio da execução de cenários de uso representativos das principais funcionalidades do aplicativo IF Ride. Esses cenários foram definidos a partir dos requisitos funcionais levantados durante a etapa de concepção do projeto, permitindo verificar se o comportamento do sistema atende às regras de negócio estabelecidas.
+
+Foram avaliadas funcionalidades como o cadastro e autenticação de usuários, solicitação para se tornar motorista, criação e gerenciamento de caronas, controle de permissões de acesso e validação de estados do usuário. Cada cenário foi testado considerando situações válidas e inválidas, de modo a assegurar que o sistema respondesse corretamente às restrições impostas pelas regras de negócio.
+
+O foco da validação não esteve na medição de desempenho ou testes automatizados em larga escala, mas sim na verificação da coerência funcional do sistema, garantindo que as decisões arquiteturais e de modelagem adotadas resultassem em um aplicativo funcional, seguro e alinhado ao problema proposto.
