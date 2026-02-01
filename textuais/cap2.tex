@@ -36,7 +36,6 @@ Segundo a \citeonline{awsrest}, APIs RESTful são interfaces que permitem a troc
     \item \textbf{Segurança e Escalabilidade (Stateless)}: O uso de tokens JWT (\textit{JSON Web Token}) em uma arquitetura \textit{stateless} elimina a necessidade de sessões no servidor, permitindo que o sistema escale horizontalmente com facilidade;
     \item \textbf{Separação de Responsabilidades (Layered System)}: A organização em camadas (\textit{Controller}, \textit{Service} e \textit{Repository}) isola a lógica de negócio. Isso permite que a regra de aprovação de motoristas seja testada e mantida de forma independente da persistência de dados;
     \item \textbf{Gestão de Estado de Segurança}: O servidor atua como o validador central do estado do motorista. Diferente de sistemas genéricos, o IF Ride bloqueia nativamente a criação de caronas por usuários cujos documentos ainda não foram validados por um administrador no módulo de gestão;
-    \item \textbf{Integração de Infraestrutura em Nuvem}: O uso de serviços AWS, como o S3 para armazenamento de documentos, demonstra uma arquitetura moderna que delega a gestão de arquivos binários para serviços especializados, focando o código Java estritamente na lógica do domínio.
 \end{enumerate}
 
 \subsection{Arquitetura}
@@ -56,17 +55,15 @@ A arquitetura proposta tem como objetivo principal garantir a segurança, a esca
 
 O fluxo de comunicação inicia-se no cliente móvel, que realiza requisições à API por meio do Amazon API Gateway, configurado como ponto de entrada da aplicação. Antes que qualquer requisição seja encaminhada à camada de aplicação, o API Gateway realiza a validação do token JWT por meio de um autorizador nativo, assegurando que apenas requisições autenticadas sejam processadas.
 
-A utilização de um autorizador JWT no Amazon API Gateway, mesmo com a presença de mecanismos de autenticação e autorização na camada de aplicação, fundamenta-se no princípio de defesa em profundidade. A validação antecipada do token permite que requisições inválidas ou malformadas sejam bloqueadas antes de alcançarem o AWS App Runner, evitando o provisionamento desnecessário de instâncias para processamento de chamadas não autorizadas.
+A utilização de um autorizador JWT no Amazon API Gateway, mesmo com a presença de mecanismos de autenticação e autorização na camada de aplicação, fundamenta-se no princípio de defesa em profundidade. A validação antecipada do token permite que requisições inválidas ou malformadas sejam bloqueadas antes de alcançarem a instância EC2, evitando chamadas desnecessárias que podem causar sobrecarga na máquina, visto que em tipos de instância com menor poder de processamento o acúmulo de requisições simultâneas pode acarretar em lentidão ou até mesmo na derrubada do sistema.
 
-Essa estratégia é particularmente relevante em cenários de alta volumetria de requisições ou potenciais ataques de negação de serviço em nível de aplicação, nos quais o escalonamento automático do App Runner poderia resultar em aumento significativo de custos e degradação do serviço. Ao concentrar a validação inicial no API Gateway, que opera de forma altamente escalável e com menor custo, a arquitetura torna-se mais eficiente, resiliente e economicamente sustentável.
+Essa estratégia é particularmente relevante em cenários de alta volumetria de requisições ou potenciais ataques de negação de serviço em nível de aplicação, nos quais o aumento do processamento da EC2 poderia resultar em lentidão significativa e degradação do serviço. Ao concentrar a validação inicial no API Gateway, que opera de forma altamente escalável e com menor custo, a arquitetura torna-se mais eficiente, resiliente e economicamente sustentável.
 
-Após a autenticação, as requisições válidas são direcionadas à aplicação hospedada no AWS App Runner, responsável pela execução da lógica de negócio. O uso de um serviço gerenciado e sob demanda possibilita o provisionamento automático de recursos conforme a carga de trabalho, contribuindo para a otimização de custos, uma vez que instâncias são alocadas apenas quando necessário.
+Após a autenticação, as requisições válidas são direcionadas à aplicação hospedada no AWS Elastic Compute Cloud (EC2), responsável pela execução da lógica de negócio. O uso de um serviço como o EC2, totalmente em nuvem e sob demanda possibilita que o usuário desfrute de um estilo de cobrança específico em que somente serão cobradas as instâncias ativas, contribuindo para a otimização de custos, uma vez que o usuário não dispõe de um custo inicial relacionado à infraestrutura, somente às instâncias que provisionar.
 
 A camada de persistência de dados é composta por um banco de dados relacional PostgreSQL, gerenciado pelo Amazon RDS, que oferece alta disponibilidade, backups automatizados e gerenciamento simplificado. A aplicação mantém comunicação direta com o banco de dados para armazenamento e recuperação das informações persistentes.
 
 Todos os componentes da arquitetura encontram-se inseridos em uma Virtual Private Cloud (VPC), que atua como uma camada adicional de segurança ao restringir o acesso direto aos serviços internos. Essa configuração garante maior isolamento da infraestrutura, limitando a exposição dos recursos à internet pública e reduzindo a superfície de ataque da aplicação.
-
-A arquitetura também prevê a separação dos ambientes de desenvolvimento e produção, permitindo a validação de novas funcionalidades em um ambiente controlado antes de sua disponibilização em produção. Essa separação contribui para a estabilidade da aplicação e reduz riscos associados a alterações no sistema.
 
 \section{Aplicativo Móvel (Front-End)}
 
